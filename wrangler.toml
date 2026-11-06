@@ -1,36 +1,11 @@
-# Webent — root Wrangler config.
-#
-# This file exists so that the exact command Cloudflare's Git builder runs,
-# `npx wrangler deploy`, works from the repository root with no arguments.
-# Without a config here, wrangler assumes you are deploying a folder of static
-# files and fails with:
-#   "Could not detect a directory containing static files"
-#
-# Build & deploy command to use in the Cloudflare dashboard (Workers Builds):
-#   build command   npm ci && npm run build
-#   deploy command  npx wrangler deploy
+# Webent — static site only, no Worker, no database.
+# Use this when you want the site online right now: copy it over wrangler.toml
+# (rename this file to wrangler.toml) and Cloudflare deploys the built site.
+# The contact form cannot send on a static-only deploy; it says so and offers WhatsApp.
 
 name = "webent"
-main = "cloudflare/worker.js"
 compatibility_date = "2025-01-15"
 
-# The site. `npm run build` writes it here, and the Worker serves it through
-# the ASSETS binding. Cloudflare builds this from source, so `dist/` does not
-# need to be committed (it is git-ignored).
 [assets]
 directory = "./dist"
-binding = "ASSETS"
 not_found_handling = "single-page-application"
-
-# Enquiry storage. Create the database once:
-#   Cloudflare dashboard → Storage & Databases → D1 SQL Database → Create
-#   name it `webent`, then copy its Database ID here (replace the line below).
-[[d1_databases]]
-binding = "DB"
-database_name = "webent"
-database_id = "PASTE-YOUR-D1-DATABASE-ID-HERE"
-
-[vars]
-# Set this to your real address after the first deploy, then redeploy.
-# It only affects robots.txt, sitemap.xml and the e-mail/canonical links.
-SITE_URL = "https://webent.YOUR-SUBDOMAIN.workers.dev"
