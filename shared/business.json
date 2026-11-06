@@ -1,0 +1,75 @@
+{
+  "business": {
+    "name": "Webent",
+    "legalName": "Webent",
+    "logoWordmark": "/brand/webent-wordmark-transparent.png",
+    "logoSquare": "/brand/webent-mark-512.png",
+    "email": "webentstudio@gmail.com",
+    "whatsapp": {
+      "countryCode": "92",
+      "nationalNumber": "3703427722",
+      "display": "+92 370 3427722"
+    },
+    "logoOriginal": "/brand/webent-wordmark.png"
+  },
+  "currency": {
+    "code": "PKR",
+    "locale": "en-PK"
+  },
+  "services": [
+    {
+      "id": "landing-page",
+      "name": "Landing Page",
+      "price": 3000,
+      "summary": "One page, one message, one clear action.",
+      "description": "A landing page is a single screen of content dedicated to one offer, one announcement or one action. It keeps the visitor's attention in one place instead of spreading it across a whole site.",
+      "visual": "landing",
+      "index": "01",
+      "registrationFee": 500,
+      "wasPrice": 15000
+    },
+    {
+      "id": "one-page-website",
+      "name": "One-Page Website",
+      "price": 4000,
+      "summary": "A single scrolling page with every section you need.",
+      "description": "A one-page website keeps everything on a single scrolling page, organised into sections such as an introduction, services, pricing and contact. It suits businesses that want a complete overview in one place.",
+      "visual": "one-page",
+      "index": "02",
+      "registrationFee": 1000,
+      "wasPrice": 20000
+    },
+    {
+      "id": "multi-page-website",
+      "name": "Multi-Page Website",
+      "price": 10000,
+      "summary": "Separate pages with shared navigation, room to grow.",
+      "description": "A multi-page website spreads content across separate pages linked by a shared navigation. It works when different parts of your business need room of their own, or when your content keeps growing.",
+      "visual": "multi-page",
+      "index": "03",
+      "registrationFee": 3000,
+      "wasPrice": 50000
+    }
+  ],
+  "offer": {
+    "enabled": true,
+    "label": "80% off",
+    "discountPercent": 80,
+    "mode": "rolling",
+    "cycleHours": 24,
+    "cycleAnchor": "2026-01-01T00:00:00Z",
+    "endsAt": "2026-11-07T06:41:23Z",
+    "note": "Introductory price \u2014 registration fee is charged separately and is non-refundable."
+  },
+  "includes": {
+    "domain": "Free domain",
+    "hosting": "Free hosting",
+    "summary": "Free domain and free hosting are included with every package.",
+    "boundary": "Paid hosting plans and paid domains are not provided or set up \u2014 only free hosting and a free domain.",
+    "items": [
+      "Free domain",
+      "Free hosting",
+      "No paid hosting or paid domain set up"
+    ]
+  }
+}

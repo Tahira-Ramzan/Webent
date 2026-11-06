@@ -1,0 +1,34 @@
+WEBENT — the finished site, ready to put online
+================================================
+
+WHAT IS IN HERE
+  dist/      the site, already built — this is what you upload
+  src/       the source (React + TypeScript)
+  server/    the small Node server: contact-form API, admin panel, sitemap
+  public/    fonts and logo
+  shared/    business.json — prices, contact details, the 80% offer
+  DEPLOY.md  step-by-step hosting instructions
+  README.md  how the code is organised, and what to change where
+
+THE FASTEST WAY TO SEE IT RUNNING (2 minutes, on your own computer)
+  1. Install Node 20 or 22 from nodejs.org
+  2. Open a terminal in this folder
+  3. npm ci
+  4. cp .env.example .env        (Windows: copy .env.example .env)
+  5. npm start
+  6. Open http://localhost:8787
+
+THE FASTEST WAY TO PUT IT LIVE
+  Recommended: Render.com or Railway — connect this folder as a GitHub repo,
+  build command "npm ci", start command "npm start", and add the environment
+  variables listed in DEPLOY.md §2. Add a persistent disk mounted at /var/data
+  and set DATA_DIR=/var/data, otherwise contact-form enquiries reset on deploy.
+
+BEFORE YOU ANNOUNCE IT
+  - set SITE_URL to your real domain
+  - set ADMIN_PASSWORD to something long
+  - open /admin and confirm the panel asks for that password
+  - submit the form once and check the enquiry appears
+
+READ DEPLOY.md for the VPS, cPanel and static-host routes, and for what is
+deliberately left unconfigured (SMTP mail, domain, admin password).
