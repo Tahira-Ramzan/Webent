@@ -1,0 +1,33 @@
+# Render blueprint — free plan, one service, both the website and the API.
+# Push this repo to GitHub, then Render → New → Blueprint → pick the repo.
+services:
+  - type: web
+    name: webent
+    runtime: node
+    plan: free
+    region: singapore          # closest free region to Pakistan; change if you prefer frankfurt/oregon
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render generates a long random password; read it in the dashboard to log in at /admin
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      # Set this to the URL Render gives you (or your own domain) after the first deploy
+      - key: SITE_URL
+        sync: false
+      # Optional: e-mail notifications. Without these, submissions are stored only in SQLite.
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_TO
+        sync: false

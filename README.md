@@ -1,5 +1,10 @@
 # Webent — website design studio site
 
+> **Deploy anywhere:** `portable/` is one folder that works on PHP shared hosting
+> (Hostinger, cPanel), Node hosts, Cloudflare and static-only hosts — same files, same form.
+> See `portable/README.md`, or upload `webent-anyhost.zip`.
+
+
 A complete, working website for **Webent**: landing pages, one-page websites and multi-page
 websites. React + TypeScript on the front, Express + SQLite behind it, with a real contact-form
 submission flow, a private owner area and configurable WhatsApp / email contact.

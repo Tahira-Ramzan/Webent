@@ -1,5 +1,9 @@
 # Putting Webent live
 
+> **Free hosting, no Cloudflare and no card:** see [`DEPLOY-FREE.md`](./DEPLOY-FREE.md) — Render's
+> free plan runs this project unchanged (site + working form + `/admin`), and Netlify's static
+> upload gives you a public link in two minutes. `render.yaml` and `Dockerfile` are included.
+
 This pack is the whole site: the React front end **and** the small Node server that serves
 it and stores contact-form enquiries in SQLite. There is no third-party backend, no build
 service and no external database — one process, one folder, one file for your data.
@@ -25,9 +29,9 @@ webent-website/
 
 | Piece | Where it runs | Needed? |
 |---|---|---|
-| Static site (`dist/`) | any web host | yes |
-| API (`/api/inquiries`, `/api/admin`) | Node 20 or 22 | yes — without it the contact form cannot honestly report success |
-| SQLite database (`data/webent.db`) | same machine as the API | created automatically |
+| Static site (`dist/`) | any web host, Cloudflare, Pages | yes |
+| API (`/api/inquiries`, `/api/admin`) | Node 20/22 **or** a Cloudflare Worker | yes — without it the contact form cannot honestly report success |
+| Storage | SQLite file (Node) **or** D1 (Cloudflare Workers) | created automatically |
 | E-mail notifications | optional SMTP | no — enquiries are stored whether or not mail is set up |
 
 The front end calls `/api/...` on **its own origin**, so the site and the API must be served
@@ -163,6 +167,52 @@ apt install -y certbot python3-certbot-nginx && certbot --nginx -d your-domain.c
    application URL your domain, startup file `server/index.js`.
 3. Run NPM Install (or `npm ci --omit=dev`), then add the environment variables from §2
    (cPanel lets you paste them), and **Restart** the app.
+
+### 3f. Cloudflare Workers (wrangler) — supported
+
+Cloudflare's drag-and-drop uploader refuses this project twice over: it cannot run a build
+step, and it cannot run the Node/Express + `better-sqlite3` server at all (Workers have no
+filesystem and no native modules). Both problems are solved in `cloudflare/`:
+
+* `dist/` (already built) is served as static assets — `wrangler deploy` uploads it as-is,
+  no build step on Cloudflare's side;
+* the API is rewritten for the Workers runtime in `cloudflare/worker.js`, storing enquiries in
+  **D1** (Cloudflare's SQLite) instead of a local file.
+
+All commands run from the **project root** (where `wrangler.toml` lives):
+
+```bash
+npm ci && npm run build                 # 1. build the site into dist/ (skip if dist/ is current)
+npx wrangler login                      # 2. one-time browser login
+npx wrangler d1 create webent           # 3. creates the database, prints a database_id
+#    paste that id into ./wrangler.toml  →  database_id = "...."
+npx wrangler d1 execute webent --remote --file=cloudflare/schema.sql   # 4. create the tables
+npx wrangler secret put ADMIN_PASSWORD  # 5. the /admin password (type it, press enter)
+npx wrangler deploy                     # 6. live at https://webent.<your-subdomain>.workers.dev
+```
+
+Then set `SITE_URL` in `./wrangler.toml` to the address you actually got (or your own domain) and
+run `npx wrangler deploy` once more, so canonical tags, `robots.txt` and `sitemap.xml` point at
+the live site.
+
+Deploying from a **GitHub repo** instead (Cloudflare's own builder runs `npx wrangler deploy` at
+the repo root — this is what the root `wrangler.toml` is for): build command
+`npm ci && npm run build`, deploy command `npx wrangler deploy`. Full click-path in
+`cloudflare/DEPLOY-FROM-GITHUB.md`.
+
+Custom domain: **Workers & Pages → webent → Settings → Domains & Routes → Add custom domain**.
+
+What works on this deployment: all four pages, the animated film, the pricing cards with the
+rolling offer, the contact form (validation, honeypot, minimum fill time, duplicate guard,
+rate limiting), storage in D1, and `/admin` (password login, enquiry list).
+
+What does **not** work on Workers: **e-mail notifications.** Workers cannot open SMTP
+connections, so enquiries are stored and shown in `/admin`, but no e-mail is sent. If you want
+the notification e-mail, either use the Node deployment in §3a/§3c, or add a mail API
+(Resend / MailChannels) inside `cloudflare/worker.js`.
+
+Free plan limits worth knowing: D1 gives 5 GB storage and generous daily reads/writes; a site
+this size uses a few MB. If you expect heavy ad traffic, the Workers paid plan is $5/month.
 
 ### 3e. Static host only (Netlify / Vercel / GitHub Pages / plain Apache)
 
