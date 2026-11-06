@@ -1,0 +1,16 @@
+name = "webent"
+main = "cloudflare/worker.js"
+compatibility_date = "2025-01-15"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "webent"
+database_id = "PASTE-YOUR-D1-DATABASE-ID-HERE"
+
+[vars]
+SITE_URL = "https://webent.YOUR-SUBDOMAIN.workers.dev"
