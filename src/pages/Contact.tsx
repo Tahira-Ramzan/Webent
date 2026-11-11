@@ -95,7 +95,7 @@ export function Contact() {
                 <h2 className="contact-card__title">What happens next</h2>
                 <ol style={{ display: 'grid', gap: 14 }}>
                   {[
-                    'Your inquiry is stored with the time it was submitted.',
+                    'Your inquiry is sent to Webent for review.',
                     'It is read, along with the requirements you described.',
                     'You are contacted at the email or number you gave, to discuss the details.',
                   ].map((item, index) => (

@@ -128,9 +128,9 @@ export function ContactForm() {
             <CheckIcon />
           </span>
           <div>
-            <strong>Inquiry received and stored.</strong>
+            <strong>Inquiry submitted.</strong>
             <p>
-              Reference <code>{status.reference}</code> — logged{' '}
+              Reference <code>{status.reference}</code> — submitted{' '}
               {received.toLocaleString('en-GB', {
                 day: '2-digit',
                 month: 'short',
@@ -138,8 +138,7 @@ export function ContactForm() {
                 hour: '2-digit',
                 minute: '2-digit',
               })}
-              . If anything needs clarifying, reply to the address you gave ({status.email}) or send
-              a WhatsApp message.
+              . We’ll use the address you gave ({status.email}) or your phone number to get in touch.
             </p>
           </div>
         </div>
@@ -353,7 +352,7 @@ export function ContactForm() {
           )}
         </button>
         <p className="field__hint" style={{ maxWidth: '34ch' }}>
-          Your details are stored so the inquiry can be answered — nothing else.
+          Your details are used to respond to your inquiry.
         </p>
       </div>
 
